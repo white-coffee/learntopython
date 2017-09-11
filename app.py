@@ -1,9 +1,9 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 # -*- coding: utf8 -*-
-'''
- author: ľͷ<my_white_coffee@163.com>
- version: 2017-09-01
-'''
+"""
+ @author: shadow<my_white_coffee@163.com>
+ @version: 2017-09-01
+"""
 
 import logging; logging.basicConfig(level=logging.INFO)
 import asyncio, os, json, time
@@ -27,4 +27,3 @@ def init(loop):
 loop = asyncio.get_event_loop()
 loop.run_until_complete(init(loop))
 loop.run_forever()
-	
