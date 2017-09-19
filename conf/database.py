@@ -22,3 +22,30 @@ async def create_pool(**kw):
 		maxsize=kw.get('maxsize', 10),
 		minsize=kw.get('minsize', 1)
 	)
+
+async def select(sql, args, size=None):
+	global __pool
+	with (await __pool) as conn:
+		cur = await conn.cursor(aiomysql.DictCursor)
+		await cur.execute(sql.replace('?', '%s'),args)
+		if size:
+			rs = await cur.fetchmany(size)
+		else:
+			rs = await cur.fetchall()
+		await cur.close()
+		return rs
+
+async def execute(sql, args):
+	global __pool
+	try:
+		with (await __pool) as conn:
+			cur = await conn.cursor()
+			await cur.execute(sql.replace('?', '%s'), args)
+			affected = cur.rowcont
+			await cur.close()
+	except BaseException as e:
+		raise e
+	return affected
+
+
+
